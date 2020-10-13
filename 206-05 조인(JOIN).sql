@@ -31,56 +31,20 @@ SELECT e.EmpID, e.EmpName, e.DeptID, d.DeptName
 
 -- INNER JOIN의 경우
 SELECT d.DeptID, d.DeptName, d.deptUnitID, u.deptUnitName
-   FROM Department AS d
-   JOIN deptUnit AS u ON d.deptUnitID = u.deptUnitID
+   FROM Department d
+   JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
 ;
 
 -- OUTER JOIN의 경우
 SELECT d.DeptID, d.DeptName, d.deptUnitID, u.deptUnitName
-   FROM Department AS d    LEFT  JOIN deptUnit AS u ON d.deptUnitID = u.deptUnitID
-   -- FROM deptUnit AS u right JOIN Department AS d    ON d.deptUnitID = u.deptUnitID
+   FROM Department d    LEFT  JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
+   -- FROM deptUnit u right JOIN Department d    ON d.deptUnitID = u.deptUnitID
 ;
 
-
--- 3) 여러 테이블간의 조인
-ALTER TABLE Vacation ADD Duration INT GENERATED ALWAYS AS (DATEDIFF(EndDate, BeginDate)+1);
-
--- 휴가를 사용한 직원들의 휴가 사용 현황 얻기
-SELECT *       
-   FROM Employee e
-   INNER JOIN Vacation v ON e.EmpID = v.EmpID
-   ORDER BY e.EmpID ASC
-;
-
-SELECT *       
-   FROM Employee e
-   left JOIN Vacation v ON e.EmpID = v.EmpID
-   ORDER BY e.EmpID ASC
-;
-
--- 휴가를 사용한 직원들의 휴가 사용 현황 얻기
-SELECT e.EmpID, e.EmpName, d.DeptName, u.deptUnitName, 
-       v.BeginDate, v.EndDate, v.Duration
-   FROM Employee e
-   INNER JOIN Department d ON e.DeptID = d.DeptID
-   LEFT OUTER JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
-   INNER JOIN Vacation v ON e.EmpID = v.EmpID
-   ORDER BY e.EmpID ASC
-;
-
--- 모든 직원들의 휴가 사용 현황 얻기
-SELECT e.EmpID, e.EmpName, d.DeptName, u.deptUnitName, 
-       v.BeginDate, v.EndDate, v.Duration
-   FROM Employee e
-   INNER JOIN Department d ON e.DeptID = d.DeptID
-   LEFT OUTER JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
-   LEFT OUTER JOIN Vacation v ON e.EmpID = v.EmpID
-   ORDER BY e.EmpID ASC
-;
 
 -- FULL OUTER JOIN (잘 안쓰이는)
 SELECT * FROM deptUnit;
-INSERT deptUnit VALUES ('D', '제0본부');
+INSERT INTO deptUnit VALUES ('D', '제0본부');
 
 SELECT *       
    FROM Department d
@@ -92,17 +56,7 @@ SELECT *
    FROM Department d
    RIGHT JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
 ;   
--- 4) Non-Equi 조인 (머리아프면 나중에 공부)
 
--- 'S0004', 'S0005' 직원보다 더 많은 급여를 받는 직원의 정보와 급여 차
-
-SELECT e1.EmpID, e1.EmpName, e1.Salary, e2.EmpName, 
-       e2.Salary, e2.Salary - e1.Salary AS 'Salary_diff'
-   FROM Employee e1
-   JOIN Employee e2 ON e1.Salary < e2.Salary
-   WHERE e1.EmpID <> e2.EmpID AND e1.EmpID  IN ('S0004', 'S0005')
-   ORDER BY e1.EmpID ASC, Salary_diff DESC
-;
 
 
 -- 휴가를 안간 직원
