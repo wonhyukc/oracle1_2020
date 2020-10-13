@@ -182,6 +182,15 @@ SELECT Gender, DeptID, AVG(Salary) AS 평균연봉,
     GROUPING(Gender)
 FROM Employee
 WHERE RetireDate IS NULL
+GROUP BY ROLLUP (Gender, DeptID)
+ORDER BY Gender, DeptID
+;
+
+SELECT Gender, DeptID, AVG(Salary) AS 평균연봉,
+	GROUPING(DeptID), 
+    GROUPING(Gender)
+FROM Employee
+WHERE RetireDate IS NULL
 GROUP BY CUBE (Gender, DeptID)
 ORDER BY Gender, DeptID
 ;
