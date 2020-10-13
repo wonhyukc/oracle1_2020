@@ -1,0 +1,125 @@
+/*
+	정원혁 2014.11. 
+	정원혁 2020.10. for Oracle
+	이장래 저 "SQL Server 2012 운영과 개발 : 이장래와 함께하는" 의 스크립트를 migration
+	http://www.yes24.com/SearchCorner/Search?scode=032&ozsrank=1&author_yn=y&query=%c0%cc%c0%e5%b7%a1&domain=all
+
+	https://github.com/wonhyukc/mySQL	
+*/
+-- *
+-- * HRDB 데이터베이스
+-- *
+
+
+--  1) 데이터베이스 만들기
+-- drop database IF EXISTS HRDB;
+-- create database IF NOT EXISTS HRDB;
+-- use HRDB;
+-- SELECT database();
+
+drop table Vacation;
+drop table Employee;
+drop table Department;
+drop table deptunit;
+
+--  deptUnit 테이블 만들기
+CREATE TABLE deptUnit (
+	deptUnitID char(1) PRIMARY KEY,
+	deptUnitName varchar(10) NOT NULL
+);
+
+
+INSERT INTO deptUnit VALUES ('A', '제1본부');
+INSERT INTO deptUnit VALUES ('B', '제2본부');
+INSERT INTO deptUnit VALUES ('C', '제3본부');
+
+-- select * from deptUnit;
+
+
+--  Department 테이블 만들기
+-- DROP TABLE Department ;
+
+CREATE TABLE Department (
+	DeptID char(3) NOT NULL,
+	DeptName varchar(20) NOT NULL,
+	deptUnitID char(1) NULL,    
+	StartDate date NOT NULL,
+	CONSTRAINT pk_Department PRIMARY KEY (DeptID),
+    CONSTRAINT fk_dept_deptUnit FOREIGN KEY (deptUnitID) REFERENCES deptUnit (deptUnitID) -- ON UPDATE CASCADE
+);
+
+
+INSERT INTO Department VALUES('SYS', '정보시스템', 'A', TO_DATE('2007-01-01', 'YYYY-MM-DD'));
+INSERT INTO Department VALUES('MKT', '영업', 'C', TO_DATE('2006-05-01', 'YYYY-MM-DD'));
+INSERT INTO Department VALUES('HRD', '인사', 'B', TO_DATE('2006-05-01', 'YYYY-MM-DD'));
+INSERT INTO Department VALUES('GE', '총무', 'B', TO_DATE('2007-03-01', 'YYYY-MM-DD'));
+INSERT INTO Department VALUES('ACC', '회계', 'B', TO_DATE('2006-04-01', 'YYYY-MM-DD'));
+INSERT INTO Department VALUES('ADV', '홍보', 'C', TO_DATE('2009-06-01', 'YYYY-MM-DD'));
+INSERT INTO Department VALUES('STG', '전략기획', NULL, TO_DATE('2009-06-01', 'YYYY-MM-DD'));
+-- select * from Department;
+
+--  Employee 테이블 만들기
+CREATE TABLE Employee (
+	EmpID char(5) NOT NULL,
+	EmpName varchar(24) NOT NULL,
+	Gender char(1) NOT NULL,
+	HireDate date NOT NULL,
+	RetireDate date NULL,
+	DeptID char(3) NOT NULL,
+	EMail varchar(50) NOT NULL,
+	Salary int NULL,
+	CONSTRAINT pk_emp PRIMARY KEY (EmpID),
+	CONSTRAINT fk_emp FOREIGN KEY (DeptID) REFERENCES Department(DeptID) 
+);
+
+
+--  데이터 추가
+INSERT INTO Employee VALUES('S0001', '홍길동', 'M', TO_DATE('2006-01-01', 'YYYY-MM-DD'), NULL, 'SYS', 'hong@itforum.co.kr', 8500);
+INSERT INTO Employee VALUES('S0002', '일지매', 'M', TO_DATE('2006-01-12', 'YYYY-MM-DD'), NULL, 'GE', 'jimae@itforum.co.kr', 8200);
+INSERT INTO Employee VALUES('S0003', '강우동', 'M', TO_DATE('2006-04-01', 'YYYY-MM-DD'), NULL, 'SYS', 'hodong@itforum.co.kr', 6500);
+INSERT INTO Employee VALUES('S0004', '김삼순', 'F', TO_DATE('2006-08-01', 'YYYY-MM-DD'), NULL, 'MKT', 'samsoon@itforum.co.kr',	7000);
+INSERT INTO Employee VALUES('S0005', '오삼식', 'M', TO_DATE('2007-01-01', 'YYYY-MM-DD'), TO_DATE('2009-01-31', 'YYYY-MM-DD'),'MKT', 'samsik@itforum.co.kr', 6400);
+INSERT INTO Employee VALUES('S0006', '김치국', 'M', TO_DATE('2007-03-01', 'YYYY-MM-DD'), NULL, 'HRD', 'chikook@itforum.co.kr',	6000);
+INSERT INTO Employee VALUES('S0007', '안경태', 'M', TO_DATE('2007-05-01', 'YYYY-MM-DD'), NULL, 'ACC', 'ahn@itforum.co.kr', 6000);
+INSERT INTO Employee VALUES('S0008', '박여사', 'F', TO_DATE('2007-08-01', 'YYYY-MM-DD'), TO_DATE('2007-09-30', 'YYYY-MM-DD'),'HRD', 'yeosa@itforum.co.kr', 6300);
+INSERT INTO Employee VALUES('S0009', '최사모', 'F', TO_DATE('2007-10-01', 'YYYY-MM-DD'), NULL, 'SYS', 'samo@itforum.co.kr', 5800);
+INSERT INTO Employee VALUES('S0010', '정효리', 'F', TO_DATE('2008-01-01', 'YYYY-MM-DD'), NULL, 'MKT', 'hyori@itforum.co.kr', 5000);
+INSERT INTO Employee VALUES('S0011', '오감자', 'M', TO_DATE('2008-02-01', 'YYYY-MM-DD'), NULL, 'SYS', 'gamja@itforum.co.kr',4700);
+INSERT INTO Employee VALUES('S0012', '최일국', 'M', TO_DATE('2008-02-01', 'YYYY-MM-DD'), NULL, 'GE', 'ilkook@itforum.co.kr', 6500);
+INSERT INTO Employee VALUES('S0013', '한국인', 'M', TO_DATE('2008-04-01', 'YYYY-MM-DD'), NULL, 'SYS', 'hankook@itforum.co.kr', 4500);
+INSERT INTO Employee VALUES('S0014', '이최고', 'M', TO_DATE('2008-04-01', 'YYYY-MM-DD'), NULL, 'MKT', 'one@itforum.co.kr', 5000);
+INSERT INTO Employee VALUES('S0015', '박치기', 'M', TO_DATE('2008-06-01', 'YYYY-MM-DD'), TO_DATE('2009-05-31', 'YYYY-MM-DD'),'MKT', 'chichi@itforum.co.kr', 4700);
+INSERT INTO Employee VALUES('S0016', '한사랑', 'F', TO_DATE('2008-06-01', 'YYYY-MM-DD'), NULL, 'HRD', 'love@itforum.co.kr', 7200);
+INSERT INTO Employee VALUES('S0017', '나도야', 'M', TO_DATE('2008-12-01', 'YYYY-MM-DD'), NULL, 'ACC', 'yaya@itforum.co.kr', 4000);
+INSERT INTO Employee VALUES('S0018', '이리와', 'M', TO_DATE('2009-01-01', 'YYYY-MM-DD'), TO_DATE('2009-06-30', 'YYYY-MM-DD'),'HRD', 'comeon@itforum.co.kr', 5300);
+INSERT INTO Employee VALUES('S0019', '정주고', 'M', TO_DATE('2009-01-01', 'YYYY-MM-DD'), NULL, 'SYS', 'give@itforum.co.kr', 6000);
+INSERT INTO Employee VALUES('S0020', '고소해', 'F', TO_DATE('2009-04-01', 'YYYY-MM-DD'), NULL, 'STG', 'haha@itforum.co.kr', 5000);
+--	select * from Employee;
+
+--  Vacation 테이블 만들기
+CREATE TABLE Vacation (
+	VacationID int GENERATED by default on null as IDENTITY,
+	EmpID char(5) NOT NULL,
+	BeginDate date NOT NULL,
+	EndDate date NOT NULL,
+	Reason varchar(50) DEFAULT '개인사유',
+	CONSTRAINT pk_vacation PRIMARY KEY (VacationID), 
+ 	CONSTRAINT fk_empID FOREIGN KEY (EmpID) REFERENCES Employee (EmpID)
+    -- ,CHECK (EndDate >= BeginDate)
+);
+
+
+-- ALTER TABLE  Vacation ADD CHECK (EndDate >= BeginDate);
+-- ALTER TABLE Vacation ADD Duration INT GENERATED ALWAYS AS (DATEDIFF(EndDate, BeginDate)+1);
+
+
+INSERT INTO Vacation VALUES( NULL,'S0001', TO_DATE('2006-12-24', 'YYYY-MM-DD'), TO_DATE('2006-12-26', 'YYYY-MM-DD'), '크리스마스 기념 가족 여행');
+INSERT INTO Vacation VALUES( NULL,'S0003', TO_DATE('2007-01-01', 'YYYY-MM-DD'), TO_DATE('2007-01-07', 'YYYY-MM-DD'), '신년 맞이 기분 내기');
+INSERT INTO Vacation VALUES( NULL,'S0001', TO_DATE('2007-05-04', 'YYYY-MM-DD'), TO_DATE('2007-05-04', 'YYYY-MM-DD'), '어린이날 이벤트 준비');
+INSERT INTO Vacation VALUES( NULL,'S0011', TO_DATE('2009-03-01', 'YYYY-MM-DD'), TO_DATE('2009-03-02', 'YYYY-MM-DD'), DEFAULT);
+INSERT INTO Vacation VALUES( NULL,'S0014', TO_DATE('2009-06-05', 'YYYY-MM-DD'), TO_DATE('2009-06-06', 'YYYY-MM-DD'), '부모님 환갑잔치');
+INSERT INTO Vacation VALUES( NULL,'S0019', TO_DATE('2010-10-08', 'YYYY-MM-DD'), TO_DATE('2010-10-16', 'YYYY-MM-DD'), '신종플루');
+INSERT INTO Vacation VALUES( NULL,'S0001', TO_DATE('2010-12-02', 'YYYY-MM-DD'), TO_DATE('2010-12-05', 'YYYY-MM-DD'), '율도국 관광');
+INSERT INTO Vacation VALUES( NULL,'S0012', TO_DATE('2010-12-15', 'YYYY-MM-DD'), TO_DATE('2010-12-18', 'YYYY-MM-DD'), '감기몸살');
+INSERT INTO Vacation VALUES( NULL,'S0009', TO_DATE('2010-12-26', 'YYYY-MM-DD'), TO_DATE('2010-12-26', 'YYYY-MM-DD'), '크리스마스 후유증');
+INSERT INTO Vacation VALUES( NULL,'S0016', TO_DATE('2011-01-03', 'YYYY-MM-DD'), TO_DATE('2011-01-15', 'YYYY-MM-DD'), '달나라 여행');
