@@ -28,7 +28,7 @@ from projects p
 
 
 -- action_items.STATUS, 
-select p.NAME 프로젝트명, m.name 마일스톤명, p.OWNER 프로젝트오너, m.owner 마일스톤오너, m.STATUS, URL, action_items.STATUS
+select p.NAME 프로젝트명, m.name 마일스톤명, p.OWNER 프로젝트오너, m.owner 마일스톤오너, m.STATUS, URL, a.STATUS
 from projects p 
     JOIN milestones m ON p.id = m.project_id
     JOIN links l ON p.id = l.project_id
