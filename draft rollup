@@ -1,0 +1,64 @@
+SELECT deptName, salary
+FROM Employee e
+    JOIN department d ON d.deptID = e.deptID
+WHERE RetireDate IS NULL
+order by deptName
+
+SELECT deptName, round(avg(salary),0) 평균급여, min(salary) 최저급여
+FROM Employee e
+    JOIN department d ON d.deptID = e.deptID
+WHERE RetireDate IS NULL
+group by deptName
+order by deptName
+
+select gender, avg(salary)
+from Employee 
+group by gender
+
+--휴가자 성별 휴가 횟수
+select gender, count(*) 휴가횟수
+--select gender, v.*
+from employee e 
+    JOIN vacation v ON e.empid = v.empid
+group by gender
+
+
+--부서명, 근무인원
+select deptName, count(*) 근무인원
+--select deptName, e.*
+from department d
+    JOIN employee e ON d.deptid = e.deptid
+where retiredate is null    
+group by deptName
+order by   deptName
+
+
+--연도별 입사인원수
+select sysdate from dual;
+select extract(year from sysdate) from dual;
+select extract(month from sysdate) from dual;
+
+TO_CHAR(SYSDATE,'YYYYMMDD'),--20191130
+
+select to_char(sysdate, 'yyyy-mm-dd') from dual;
+select to_char(sysdate, 'yy-mm-dd') from duxal;
+
+
+select extract (year from hireDate) 연도, count(*) 인원수
+from employee e
+group by extract (year from hireDate)
+
+
+
+--연도별, 월별 입사인원수
+select extract (year from hireDate) 연도, extract (month from hireDate) 월, count(*) 인원수
+from employee e
+group by extract (year from hireDate), extract (month from hireDate)
+order by extract (year from hireDate), extract (month from hireDate)
+
+--월별 입사인원수
+select  extract (month from hireDate) 월, count(*) 인원수
+from employee e
+group by extract (month from hireDate)
+order by extract (month from hireDate)
+
