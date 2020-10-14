@@ -52,7 +52,7 @@ select * FROM Employee;
 
 UPDATE Employee
 	SET Salary = NULL
-	WHERE EmpID = S0020;
+	WHERE EmpID = 'S0020';
 
 SELECT COUNT(*) AS EmpCount
 	FROM Employee
