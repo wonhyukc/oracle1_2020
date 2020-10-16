@@ -24,6 +24,8 @@ select count(salary) FROM Employee;
 select count(*) FROM Employee;
 select count(RetireDate) FROM Employee;
 
+
+
 -- 근무 중인 직원들의 급여의 합 구하기
 SELECT SUM(Salary) AS Tot_Salary
 	FROM Employee
@@ -36,7 +38,6 @@ SELECT MAX(Salary) AS Max_Salary, MIN(Salary) AS  Min_Salary,
              count(*) as 갯수, avg(salary) as 평균연봉
 	FROM Employee
 	WHERE RetireDate IS NULL;
-
 
 
 -- 2) 집계 함수와 NULL 값 예제
@@ -176,23 +177,14 @@ SELECT Gender, DeptID, AVG(Salary) AS 평균연봉,
     GROUPING(Gender)
 FROM Employee
 WHERE RetireDate IS NULL
-GROUP BY ROLLUP (Gender, DeptID)
-ORDER BY Gender, DeptID
-;
-
-SELECT Gender, DeptID, AVG(Salary) AS 평균연봉,
-	GROUPING(DeptID), 
-    GROUPING(Gender)
-FROM Employee
-WHERE RetireDate IS NULL
-GROUP BY CUBE (Gender, DeptID)
+GROUP BY Gender, DeptID WITH ROLLUP
 ORDER BY Gender, DeptID
 ;
 
 SELECT DeptID, Gender, AVG(Salary) AS 평균연봉
 FROM Employee
 WHERE RetireDate IS NULL
-GROUP BY CUBE (Gender, DeptID)
+GROUP BY DeptID, Gender WITH ROLLUP
 ORDER BY DeptID, Gender
 ;
 
