@@ -1,4 +1,6 @@
 /*
+	정원혁 2020.10 for Oracle
+	정원혁 2014.11
 	제 9장 연습3
 	정원혁 / 99.5.1.
 */
@@ -13,8 +15,6 @@ INSERT INTO caseTest VALUES ('*');
 INSERT INTO caseTest VALUES ('+');
 INSERT INTO caseTest VALUES ('-');
 INSERT INTO caseTest VALUES ('.');
-
-COMMIT;
 
 
 SELECT a, CASE

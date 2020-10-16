@@ -1,4 +1,5 @@
 /*
+	정원혁 2020.10 for Oracle
 	정원혁 2014.11. 
 	이장래 저 "SQL Server 2012 운영과 개발 : 이장래와 함께하는" 의 스크립트를 migration
 	http://www.yes24.com/SearchCorner/Search?scode=032&ozsrank=1&author_yn=y&query=%c0%cc%c0%e5%b7%a1&domain=all
@@ -56,6 +57,11 @@ SELECT *
    FROM Department d
    RIGHT JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
 ;   
+
+SELECT *       
+   FROM Department d
+   FULL OUTER JOIN deptUnit u ON d.deptUnitID = u.deptUnitID
+;
 
 
 

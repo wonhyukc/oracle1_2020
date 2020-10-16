@@ -1,10 +1,8 @@
 /*
+	정원혁 2020.10 for Oracle 미완성
 	정원혁 2014.11. 
-	정원혁 2020.10. for Oracle
 	이장래 저 "SQL Server 2012 운영과 개발 : 이장래와 함께하는" 의 스크립트를 migration
 	http://www.yes24.com/SearchCorner/Search?scode=032&ozsrank=1&author_yn=y&query=%c0%cc%c0%e5%b7%a1&domain=all
-
-	https://github.com/wonhyukc/mySQL	
 */
 -- *
 -- * HRDB 데이터베이스

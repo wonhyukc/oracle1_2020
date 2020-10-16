@@ -1,23 +1,18 @@
 /*
+	정원혁 2020.10 for Oracle
 	정원혁 2014.11. 
 	이장래 저 "SQL Server 2012 운영과 개발 : 이장래와 함께하는" 의 스크립트를 migration
 	http://www.yes24.com/SearchCorner/Search?scode=032&ozsrank=1&author_yn=y&query=%c0%cc%c0%e5%b7%a1&domain=all
-	
-	https://github.com/wonhyukc/mySQL
 */
 use HRDB;
-SELECT database();
 
 -- 
 --  6.4 데이터 집계
 -- 
 
-
-
 -- 
 --  A. 기본적인 데이터 집계
 -- 
-
 
 -- 1) 집계 함수 사용
 select * FROM Employee;
@@ -28,9 +23,6 @@ select AVG(salary) FROM Employee;
 select count(salary) FROM Employee;
 select count(*) FROM Employee;
 select count(RetireDate) FROM Employee;
-
-
-
 
 -- 근무 중인 직원들의 급여의 합 구하기
 SELECT SUM(Salary) AS Tot_Salary
@@ -54,7 +46,7 @@ select * FROM Employee;
 
 UPDATE Employee
 	SET Salary = NULL
-	WHERE EmpID = S0020;
+	WHERE EmpID = 'S0020';
 
 SELECT COUNT(*) AS EmpCount
 	FROM Employee
@@ -102,12 +94,14 @@ SELECT DeptID, COUNT(*) AS Emp_Count
 ;
 
 -- 오류
+/*
 SELECT DeptID, EmpName, COUNT(*) AS Emp_Count
 	FROM Employee
 	WHERE RetireDate IS NULL
 	GROUP BY DeptID
     ORDER BY 1, 2
 ;
+*/
 SELECT DeptID, EmpName FROM Employee ORDER BY 1, 2;
 
 -- 부서별 근무하는 직원의 급여의 합을 구하자.

@@ -1,3 +1,7 @@
+/*
+	정원혁 2020.10 for Oracle
+	정원혁 2014.11. 
+*/
 --use hrdb;
 select *
 from employee
